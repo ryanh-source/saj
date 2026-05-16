@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+venv/
+
+# Build 
+build/
+dist/
+*.spec
+.vscode/
