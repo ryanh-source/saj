@@ -10,7 +10,8 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
-
+import ctypes
+from ctypes import wintypes
 from PySide6.QtCore import QObject, Signal, QFileSystemWatcher, QTimer
 
 
@@ -31,14 +32,43 @@ def player_log_path() -> Path:
     return Path(base) / "AppData" / "LocalLow" / "Northwood" / "SCPSL" / "Player.log"
 
 
-def favorites_path() -> Path:
+def _appdata_dir() -> Path:
+    """Resolve %APPDATA% (Roaming) robustly.
+
+    When SAJ is autostarted from the registry Run key at login, the APPDATA
+    environment variable is occasionally not yet populated in the process
+    environment. Falling back to "" there produces a *relative* path, so the
+    app reads/writes settings in the wrong place (usually the process CWD) and
+    calibration appears to reset even though the real file is untouched.
+    Reconstruct from USERPROFILE, then fall back to the Windows shell
+    known-folder API as a last resort.
+    """
     base = os.environ.get("APPDATA", "")
-    return Path(base) / "SCP Secret Laboratory" / "favorites.txt"
+    if base:
+        return Path(base)
+
+    profile = os.environ.get("USERPROFILE", "")
+    if profile:
+        return Path(profile) / "AppData" / "Roaming"
+
+    try:
+        buf = ctypes.create_unicode_buffer(wintypes.MAX_PATH)
+        # CSIDL_APPDATA = 0x001a, SHGFP_TYPE_CURRENT = 0
+        ctypes.windll.shell32.SHGetFolderPathW(None, 0x001a, None, 0, buf)
+        if buf.value:
+            return Path(buf.value)
+    except Exception:
+        pass
+
+    return Path.home() / "AppData" / "Roaming"
+
+
+def favorites_path() -> Path:
+    return _appdata_dir() / "SCP Secret Laboratory" / "favorites.txt"
 
 
 def settings_path() -> Path:
-    base = os.environ.get("APPDATA", "")
-    return Path(base) / "scpsl_autojoin" / "settings.json"
+    return _appdata_dir() / "scpsl_autojoin" / "settings.json"
 
 
 def update_download_dir() -> Path:

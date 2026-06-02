@@ -1354,7 +1354,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1422,7 +1422,7 @@ class Ui_MainWindow(object):
         self.logo_text_20.setText(QCoreApplication.translate("MainWindow", u"ABOUT", None))
         self.about_icon.setText("")
         self.logo_text_31.setText(QCoreApplication.translate("MainWindow", u"Version", None))
-        self.app_version.setText(QCoreApplication.translate("MainWindow", u"v1.0.0", None))
+        self.app_version.setText(QCoreApplication.translate("MainWindow", u"v1.0.1", None))
         self.logo_text_33.setText(QCoreApplication.translate("MainWindow", u"Log file", None))
         self.log_file_location.setText(QCoreApplication.translate("MainWindow", u"..\\Northwood\\SCPSL\\Player.log", None))
         self.up_to_date.setText(QCoreApplication.translate("MainWindow", u"You're up to date", None))

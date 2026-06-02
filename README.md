@@ -144,6 +144,8 @@ python main.py
 
 **Requirements:** Python 3.12, Windows
 
+**To Build From Source** pyinstaller --noconsole --onefile --add-data "assets/fonts;assets/fonts" --icon="assets/images/app_icon.ico" main.py
+
 ---
 
 ## Disclaimer

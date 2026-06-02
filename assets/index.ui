@@ -67,7 +67,7 @@
       <string notr="true">background-color: transparent;</string>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="home_page">
       <property name="styleSheet">
@@ -2659,7 +2659,7 @@ border: none;
 outline: none;</string>
         </property>
         <property name="text">
-         <string>v1.0.0</string>
+         <string>v1.0.1</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
