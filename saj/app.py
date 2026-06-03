@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import os
 import sys
+import time
 from pathlib import Path
 
 from PySide6.QtGui import QFontDatabase
@@ -14,8 +15,25 @@ QFontDatabase.addApplicationFont(":/fonts/fonts/Manrope-VariableFont_wght.ttf")
 # Suppress Qt platform window warnings
 os.environ["QT_LOGGING_RULES"] = "qt.qpa.window=false"
 
-from saj.core.system import load_settings
+from saj.core.system import load_settings, settings_path
 from saj.ui.main_window import MainWindow
+
+
+def _wait_for_settings_environment(timeout: float = 15.0) -> None:
+    """Block briefly at startup until the settings file is reachable.
+    """
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        try:
+            p = settings_path()
+            if p.exists():
+                return
+            # Parent user-data dir
+            if p.parent.parent.exists():
+                return
+        except Exception:
+            pass
+        time.sleep(0.5)
 
 
 def load_manrope_font() -> None:
@@ -58,6 +76,13 @@ def load_manrope_font() -> None:
 
 def run() -> None:
     """Application entry point. Called from main.py."""
+    # On autostart (cold boot) the user environment may not be ready yet.
+    # Wait for the real settings file before reading anything, so calibration
+    # isn't lost to a too-early launch. Manual launches skip this entirely.
+    autostarted = "--minimized" in sys.argv[1:] or "--tray" in sys.argv[1:]
+    if autostarted:
+        _wait_for_settings_environment()
+
     app = QApplication(sys.argv)
     tray_enabled = bool(load_settings().get("tray_enabled", True))
     app.setQuitOnLastWindowClosed(not tray_enabled)

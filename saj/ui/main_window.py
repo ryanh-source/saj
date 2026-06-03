@@ -1593,6 +1593,7 @@ class MainWindow(QMainWindow):
 
         s = load_settings()
         s["calibration"] = {
+            "servers": list(self.cal_servers),
             "tab": list(self.cal_tab),
             "slot1": list(self.cal_slot1),
             "slot2": list(self.cal_slot2),

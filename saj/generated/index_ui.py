@@ -62,8 +62,8 @@ class Ui_MainWindow(object):
 "    \n"
 "    border-top-left-radius: 0px;\n"
 "    border-top-right-radius: 0px;\n"
-"    border-bottom-left-radius: 10px;\n"
-"    border-bottom-right-radius: 10px;\n"
+"    border-bottom-left-radius: 16px;\n"
+"    border-bottom-right-radius: 16px;\n"
 "\n"
 "    padding: 10px;\n"
 "    color: #c8c8c8;\n"
@@ -1422,7 +1422,7 @@ class Ui_MainWindow(object):
         self.logo_text_20.setText(QCoreApplication.translate("MainWindow", u"ABOUT", None))
         self.about_icon.setText("")
         self.logo_text_31.setText(QCoreApplication.translate("MainWindow", u"Version", None))
-        self.app_version.setText(QCoreApplication.translate("MainWindow", u"v1.0.1", None))
+        self.app_version.setText(QCoreApplication.translate("MainWindow", u"v1.0.2", None))
         self.logo_text_33.setText(QCoreApplication.translate("MainWindow", u"Log file", None))
         self.log_file_location.setText(QCoreApplication.translate("MainWindow", u"..\\Northwood\\SCPSL\\Player.log", None))
         self.up_to_date.setText(QCoreApplication.translate("MainWindow", u"You're up to date", None))
